@@ -1,28 +1,42 @@
 import { X } from "lucide-react";
 import { Menu } from "lucide-react";
-import React from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { Bell } from "lucide-react";
-import { CircleUserRound } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { Link } from "react-router-dom";
+import { LayoutDashboard } from "lucide-react";
 
 const Header = () => {
-    const {sidebarActive, setSidebarActive} = useContext(GlobalContext)
+  const { sidebarActive, setSidebarActive } = useContext(GlobalContext);
+  const location = useLocation();
+  const { signed } = useContext(UserContext);
   return (
-    <header>
-      <div className="container-width p-[2rem] border-b border-dark-800 bg-[#121214] flex items-center">
-        <button
-          className="bg-[#36363666] p-[1rem] rounded-md"
-          onClick={() => setSidebarActive(!sidebarActive)}
-        >
-          {sidebarActive ? (
-            <X width={24} stroke="#b0b0b0" height={24} strokeWidth={1.5} />
-          ) : (
-            <Menu width={24} stroke="#b0b0b0" height={24} strokeWidth={1.5} />
-          )}
-        </button>
+    <header className="border-b border-dark-800">
+      <div
+        className={`container-width p-[2rem] bg-[#121214] flex items-center justify-between ${
+          location.pathname.includes("login") ||
+          location.pathname.includes("criar-conta") ||
+          location.pathname.endsWith("/")
+            ? "max-w-[80%] mx-auto"
+            : ""
+        } `}
+      >
+        {location.pathname.startsWith("/projetos") && signed && (
+          <button
+            className="bg-[#36363666] p-[1rem] rounded-md"
+            onClick={() => setSidebarActive(!sidebarActive)}
+          >
+            {sidebarActive ? (
+              <X width={24} stroke="#b0b0b0" height={24} strokeWidth={1.5} />
+            ) : (
+              <Menu width={24} stroke="#b0b0b0" height={24} strokeWidth={1.5} />
+            )}
+          </button>
+        )}
         <div className="flex items-center ml-[2rem] gap-[.6rem]">
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             width={24}
@@ -50,19 +64,37 @@ const Header = () => {
               stroke="currentColor"
               strokeWidth="1.5"
             />
-          </svg>
-          <h1 className="text-[#b0b0b0] text-[2rem] font-semibold leading-none ">
-            DevPlanr
-          </h1>
+          </svg> */}
+          <Link to={"/"} className="text-[#b0b0b0] text-[2rem] font-semibold leading-none flex gap-[.4rem] items-center">
+            {/* <h1 > */}
+            <LayoutDashboard className="w-[3.2rem] h-[3.2rem]"/>
+            DevPlannr
+            {/* </h1> */}
+          </Link>
         </div>
-        <div className="flex items-center ml-auto gap-[1rem]">
-          <button className="p-[.8rem] rounded-full border border-dark-800">
-            <Bell color="#b0b0b0" width={18} height={18} strokeWidth={1.75} />
-          </button>
-          <button className="bg-gradient-to-tr from-purple-700 to-orange-700 w-16 h-16 rounded-full">
-
-          </button>
-        </div>
+        {signed ? (
+          <div className="flex items-center ml-auto gap-[1rem]">
+            <button className="p-[.8rem] rounded-full border border-dark-800">
+              <Bell color="#b0b0b0" width={18} height={18} strokeWidth={1.75} />
+            </button>
+            <button className="bg-gradient-to-tr from-purple-700 to-orange-700 w-16 h-16 rounded-full"></button>
+          </div>
+        ) : (
+          <div className="gap-[2rem] flex">
+            <Link
+              to={"/login"}
+              className="text-dark-50 p-[1rem] text-[1.6rem] font-semibold"
+            >
+              Entrar
+            </Link>
+            <Link
+              to={"/criar-conta"}
+              className="bg-dark-50 p-[1rem] text-[1.6rem] font-semibold rounded-md"
+            >
+              Criar conta
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

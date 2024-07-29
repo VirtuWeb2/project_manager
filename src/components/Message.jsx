@@ -1,13 +1,11 @@
 import PropTypes from "prop-types";
-import { X } from "lucide-react";
 import { CircleCheck } from "lucide-react";
 import { useEffect } from "react";
 import gsap from "gsap/all";
 import { useRef } from "react";
-import { useState } from "react";
 import { Ampersands } from "lucide-react";
 
-const Message = ({ type, text, time, message, setMessage }) => {
+const Message = ({ type, text, time, message, setMessage, title }) => {
   const timeOut = useRef();
   useEffect(() => {
     gsap.fromTo(
@@ -31,9 +29,9 @@ const Message = ({ type, text, time, message, setMessage }) => {
       )}
       <div>
         <span className="text-[1.6rem] font-semibold mb-[.4rem] block">
-          {type == "success" ? "Sucesso!" : "Erro"}
+         {title}
         </span>
-        <p className="text-[1.25rem] text-dark-300">{text}</p>
+        <p className="text-[1.25rem] text-dark-300 max-w-[40ch] leading-[1.3]">{text}</p>
       </div>
     </div>
   )
@@ -42,6 +40,7 @@ const Message = ({ type, text, time, message, setMessage }) => {
 Message.propTypes = {
   type: PropTypes.string,
   text: PropTypes.string,
+  title: PropTypes.string,
   time: PropTypes.number,
   message: PropTypes.object,
   setMessage: PropTypes.func

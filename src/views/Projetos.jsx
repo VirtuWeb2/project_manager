@@ -31,6 +31,7 @@ const Projetos = () => {
     const localProjects = localStorage.getItem("projects")
     return localProjects ? JSON.parse(localProjects): []
   });
+  const [activeModalIndex, setActiveModalIndex] = useState(null)
   const timeOut = useRef();
   const programmingLanguages = [
     {
@@ -113,24 +114,195 @@ const Projetos = () => {
       label: "Kotlin",
     },
   ];
+  // const frameworks = [
+  //   {
+  //     language: ["ruby"],
+  //     frameworks: ["rails"],
+  //   },
+  //   {
+  //     language: ["javascript", "typescript"],
+  //     frameworks: [
+  //       "react",
+  //       "express",
+  //       "angular",
+  //       "electron",
+  //       "svelte",
+  //       "vue",
+  //       "react-router",
+  //     ],
+  //   },
+  // ];
+  
   const frameworks = [
     {
-      language: ["ruby"],
-      frameworks: ["rails"],
+      language: ["c"],
+      frameworks: [
+        "gtk", // Biblioteca para interfaces gráficas
+        "qt", // Framework para aplicações multiplataforma
+        "libcurl", // Biblioteca para transferência de dados
+        "cmake", // Ferramenta de gerenciamento de construção
+        "poco", // Framework para aplicações C++ (mencionado aqui para C devido à semelhança)
+      ],
+    },
+    {
+      language: ["c++"],
+      frameworks: [
+        "qt", // Framework para aplicações multiplataforma
+        "boost", // Conjunto de bibliotecas de C++
+        "poco", // Framework para aplicações em C++
+        "wxwidgets", // Biblioteca para interfaces gráficas
+        "cmake", // Ferramenta de gerenciamento de construção
+        "opencv", // Biblioteca para visão computacional
+      ],
+    },
+    {
+      language: ["c#"],
+      frameworks: [
+        ".net", // Framework principal da Microsoft para C#
+        "asp.net", // Framework para aplicações web
+        "xamarin", // Framework para desenvolvimento mobile
+        "unity", // Motor de jogo popular
+        "blazor", // Framework para aplicações web com C#
+        "entity framework", // Framework de mapeamento objeto-relacional
+      ],
+    },
+    {
+      language: ["golang"],
+      frameworks: [
+        "gin", // Framework web
+        "echo", // Framework web
+        "beego", // Framework web
+        "revel", // Framework web
+        "buffalo", // Framework web
+        "gorm", // ORM para Go
+      ],
+    },
+    {
+      language: ["java"],
+      frameworks: [
+        "spring", // Framework para aplicações empresariais
+        "hibernate", // Framework para mapeamento objeto-relacional
+        "java server faces (jsf)", // Framework para desenvolvimento web
+        "gwt", // Framework para desenvolvimento web
+        "jersey", // Framework para desenvolvimento de RESTful APIs
+        "vaadin", // Framework para aplicações web
+      ],
+    },
+    {
+      language: [".net"],
+      frameworks: [
+        "asp.net", // Framework para aplicações web
+        "blazor", // Framework para aplicações web com C#
+        "entity framework", // Framework de mapeamento objeto-relacional
+        "maui", // Framework para aplicações cross-platform
+        "signalr", // Biblioteca para comunicação em tempo real
+        "wpf", // Framework para aplicações desktop
+      ],
+    },
+    {
+      language: ["php"],
+      frameworks: [
+        "laravel", // Framework web
+        "symfony", // Framework web
+        "codeigniter", // Framework web
+        "zend framework", // Framework web
+        "cakephp", // Framework web
+        "yii", // Framework web
+      ],
+    },
+    {
+      language: ["r"],
+      frameworks: [
+        "shiny", // Framework para aplicações web interativas
+        "ggplot2", // Pacote para visualização de dados
+        "dplyr", // Pacote para manipulação de dados
+        "caret", // Pacote para treinamento de modelos de machine learning
+        "data.table", // Pacote para manipulação de dados
+      ],
     },
     {
       language: ["javascript", "typescript"],
       frameworks: [
-        "react",
-        "express",
-        "angular",
-        "electron",
-        "svelte",
-        "vue",
-        "react-router",
+        "react", // Biblioteca para interfaces de usuário
+        "angular", // Framework web
+        "vue", // Framework web
+        "svelte", // Framework web
+        "express", // Framework web para node.js
+        "nestjs", // Framework web para node.js
+        "electron", // Framework para aplicações desktop
+        "nextjs", // Framework para react
+        "gatsby", // Framework para react
+        "react-router", // Biblioteca para roteamento em react
+      ],
+    },
+    {
+      language: ["typescript"],
+      frameworks: [
+        "angular", // Framework web
+        "nestjs", // Framework web para node.js
+        "next.js", // Framework para react
+        "deno", // Runtime para typescript e javascript
+        "tsdx", // Ferramenta para criação de bibliotecas em typescript
+      ],
+    },
+    {
+      language: ["python"],
+      frameworks: [
+        "django", // Framework web
+        "flask", // Framework web
+        "fastapi", // Framework web para apis
+        "pyramid", // Framework web
+        "tornado", // Framework web para aplicações assíncronas
+        "bottle", // Framework web
+      ],
+    },
+    {
+      language: ["ruby"],
+      frameworks: [
+        "rails", // Framework web
+        "sinatra", // Framework web
+        "hanami", // Framework web
+        "padrino", // Framework web
+        "rom", // Framework de mapeamento objeto-relacional
+        "cuba", // Framework web minimalista
+      ],
+    },
+    {
+      language: ["rust"],
+      frameworks: [
+        "rocket", // Framework web
+        "actix", // Framework web
+        "tide", // Framework web
+        "warp", // Framework web
+        "yew", // Framework para desenvolvimento web
+        "seaorm", // ORM para rust
+      ],
+    },
+    {
+      language: ["swift"],
+      frameworks: [
+        "swiftui", // Framework para interfaces gráficas
+        "vapor", // Framework web
+        "kitura", // Framework web
+        "perfect", // Framework web
+        "combine", // Framework para programação reativa
+        "coredata", // Framework para gerenciamento de dados
+      ],
+    },
+    {
+      language: ["kotlin"],
+      frameworks: [
+        "ktor", // Framework web
+        "spring boot", // Framework para aplicações web (também usado com java)
+        "exposed", // Framework para banco de dados
+        "android jetpack", // Conjunto de bibliotecas para desenvolvimento android
+        "koin", // Framework para injeção de dependência
+        "apollo", // Framework para graphql
       ],
     },
   ];
+
+
   const databases = [
     { icon: "firebase", label: "Firebase" },
     { icon: "mongodb", label: "Mongodb" },
@@ -148,7 +320,7 @@ const Projetos = () => {
       index: 0,
     },
     {
-      class: "from-green-700 to-blue-700",
+      class: "from-quicksand-500 to-quicksand-900",
       index: 1,
     },
     {
@@ -160,7 +332,8 @@ const Projetos = () => {
       index: 3,
     },
     {
-      class: "from-teal-400 to-yellow-200",
+      class:
+        " from-stone-500 to-stone-700",
       index: 4,
     },
     {
@@ -253,9 +426,9 @@ const Projetos = () => {
     
   }
 
-  useEffect(()=>{
-    gsap.fromTo("[data-animate='projetos']", {opacity: 0, x:-32}, {opacity: 1, x:0, stagger: .1})
-  },[])
+  // useEffect(()=>{
+  //   gsap.fromTo("[data-animate='projetos']", {opacity: 0, x:-32}, {opacity: 1, x:0, stagger: .1})
+  // },[])
   return (
     <>
       <div className="relative w-[80%] mx-auto">
@@ -300,27 +473,25 @@ const Projetos = () => {
           {projects.sort((a, b)=> b.id - a.id).map((proj, index) => {
             return (
               <div
-                key={index}
-                className={`projeto-card bg-gradient-to-tr ${
-                  backgroundColors[proj.background].class
-                } p-[2.6rem] flex flex-col text-dark-50 rounded-md font-semibold min-w-[260px] h-[160px] relative`}
+                key={proj.id}
+                className={`projeto-card bg-gradient-to-tr bg-dark-900 bg-opacity-30 border border-opacity-30 border-dark-700 p-[2.6rem] flex flex-col text-dark-50 rounded-md font-semibold min-w-[260px] h-[160px] relative`}
                 data-animate="projetos"
               >
                 <div>
                   <span className="text-[2.3rem]">{proj.title}</span>
                   <p className="mt-[.4rem] text-[1.3rem]">{proj.type}</p>
                 </div>
-                <div className="flex mt-[1rem] gap-[.4rem]">
+                <div className="flex flex-wrap mt-[1rem] gap-[.4rem]">
                   {proj.languages.map((img, index) => {
                     return (
                       <img width={24} key={index} src={`/icons/${img}.svg`} />
                     );
                   })}
-                  {proj.frameworks.map((img, index) => {
+                  {/* {proj.frameworks.map((img, index) => {
                     return (
                       <img width={24} key={index} src={`/icons/${img}.svg`} />
                     );
-                  })}
+                  })} */}
                   {proj.databases.map((img, index) => {
                     return (
                       <img width={24} key={index} src={`/icons/${img}.svg`} />
@@ -329,23 +500,40 @@ const Projetos = () => {
                   {/* <UserRoundPlus color="#fff" strokeWidth={1.5} />
                   <Star color="#fff" strokeWidth={1.5} /> */}
                 </div>
-                <button className="absolute right-4 top-2">
+                <button
+                  onClick={() =>
+                    activeModalIndex != null
+                      ? setActiveModalIndex(null)
+                      : setActiveModalIndex(index)
+                  }
+                  className="absolute right-4 top-2"
+                >
                   <Ellipsis width={20} />
                 </button>
-                <div className="modal-project-options bg-dark-900 border border-dark-500 border-opacity-50 p-[1rem] rounded-md absolute right-0">
-                  <button className="text-[1.3rem] font-medium flex gap-[1rem] items-center hover:bg-dark-800 w-full p-[.6rem] rounded-md hover:bg-opacity-50 text-red-400">
-                    <Trash2 width={18} />
-                    Excluir projeto
-                  </button>
-                  <button className="text-[1.3rem] font-medium flex gap-[1rem] items-center hover:bg-dark-800 w-full p-[.6rem] rounded-md hover:bg-opacity-50 text-dark-300">
-                    <Settings width={18} />
-                    Configurações 
-                  </button>
-                  <button className="text-[1.3rem] font-medium flex gap-[1rem] items-center hover:bg-dark-800 w-full p-[.6rem] rounded-md hover:bg-opacity-50 text-dark-300">
-                    <Share width={18} />
-                    Convidar
-                  </button>
-                </div>
+                {activeModalIndex === index && (
+                  // <div className="modal-options-container absolute w-full h-full left-0 top-0 bg-opacity-50 bg-dark-900">
+                  <div className="modal-project-options bg-dark-900 border border-dark-500 border-opacity-50 p-[1rem] rounded-md absolute -right-[45%] top-12 z-[3]">
+                    <button className="text-[1.3rem] font-medium flex gap-[1rem] items-center hover:bg-dark-800 w-full p-[.6rem] rounded-md hover:bg-opacity-50 text-dark-300">
+                      <Star width={18} />
+                      Favoritar
+                    </button>
+                    <button className="text-[1.3rem] font-medium flex gap-[1rem] items-center hover:bg-dark-800 w-full p-[.6rem] rounded-md hover:bg-opacity-50 text-dark-300">
+                      <Settings width={18} />
+                      Configurações
+                    </button>
+                    <button className="text-[1.3rem] font-medium flex gap-[1rem] items-center hover:bg-dark-800 w-full p-[.6rem] rounded-md hover:bg-opacity-50 text-dark-300">
+                      <Share width={18} />
+                      Convidar
+                    </button>
+                    <button onClick={()=> {
+                      setActiveModalIndex(null)
+                      setProjects(projects.filter((i) => i.id != proj.id));
+                    }} className="text-[1.3rem] font-medium flex gap-[1rem] items-center hover:bg-dark-800 w-full p-[.6rem] rounded-md hover:bg-opacity-50 text-red-400">
+                      <Trash2 width={18} />
+                      Excluir projeto
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}

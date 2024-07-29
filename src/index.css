@@ -68,15 +68,6 @@ body {
   /* height: 100% !important; */
 }
 
-aside div {
-  display: flex;
-  height: fit-content;
-  flex-direction: column;
-  /* min-height: 88dvh;
-  max-height: 88dvh; */
-  position: sticky;
-  top: 32px;
-}
 
 .sidebar-link {
   @apply text-dark-400 font-medium text-[1.6rem] flex p-[1.3rem] items-center gap-[1.6rem] hover:bg-[#2c2c2c] ease-in-out rounded-md duration-[200ms];
@@ -114,4 +105,8 @@ aside a[aria-current="page"] {
 /* Cor do thumb quando estiver sendo arrastado */
 .select-languages::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+input::-webkit-inner-spin-button{
+  display: none;
 }

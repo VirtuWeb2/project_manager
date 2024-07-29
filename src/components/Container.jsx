@@ -55,7 +55,7 @@ const Container = ({ children }) => {
       top:
         e.currentTarget.getBoundingClientRect().top -
         e.currentTarget.scrollHeight -
-        20,
+        15,
     });
     setTitle(title);
    }
@@ -65,10 +65,10 @@ const Container = ({ children }) => {
     <section className="container">
       <div className={`container-width`}>
         <aside
-          className={`flex flex-col p-[1.5rem] py-[4rem] text-[1.5rem] gap-[1rem]`}
+          className={`flex flex-col p-[1.5rem] py-[4rem] text-[1.5rem] gap-[1rem] relative min-h-[91.8vh]`}
         >
-          <div className="h-full">
-            {/* <NavLink
+          
+            <NavLink
             onMouseEnter={(e) => showTitle(e, "Início")}
             onMouseLeave={() => setPosition(null)}
             to={"/"}
@@ -78,7 +78,7 @@ const Container = ({ children }) => {
           >
             <Home width={24} height={24} strokeWidth={1.5} />
             {sidebarActive && <span>Início</span>}
-          </NavLink> */}
+          </NavLink>
             <NavLink
               onMouseEnter={(e) => showTitle(e, "Projetos")}
               onMouseLeave={() => setPosition(null)}
@@ -130,7 +130,6 @@ const Container = ({ children }) => {
               <Settings width={24} height={24} strokeWidth={1.5} />
               {sidebarActive && <span>Configurações</span>}
             </NavLink> */}
-          </div>
             {position && <Title position={position} title={title} />}
         </aside>
         {children}
